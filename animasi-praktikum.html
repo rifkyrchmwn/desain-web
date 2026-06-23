@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animasi Praktikum - CSS Advanced</title>
+    <style>
+        /* Reset default browser */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #F0F4F8;
+            color: #333;
+        }
+
+        /* P-1: Navbar fixed dengan transition */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 18px 40px;
+            background-color: rgba(21, 101, 192, 0.85);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            /* Transition 3 properti: background-color, box-shadow, padding */
+            transition: background-color 0.4s ease,
+                box-shadow 0.3s ease,
+                padding 0.3s ease;
+        }
+
+        /* Navbar berubah saat hover */
+        .navbar:hover {
+            background-color: #0D47A1;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            padding: 14px 40px;
+        }
+
+        .navbar .logo {
+            color: white;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .navbar .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 16px;
+            /* Transition warna link */
+            transition: color 0.3s ease;
+        }
+
+        .navbar .nav-links a:hover {
+            color: #BBDEFB;
+        }
+
+        /* P-2: Hero section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(135deg, #1565C0, #0D47A1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+        }
+
+        /* Animation fade-in + slide-up multi-langkah */
+        @keyframes fadeSlideUp {
+            0% {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            60% {
+                opacity: 0.8;
+                transform: translateY(-5px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: 16px;
+            /* Animation dengan fill-mode: both */
+            animation: fadeSlideUp 1s ease both;
+        }
+
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            /* Animation dengan delay 0.3s */
+            animation: fadeSlideUp 1s ease 0.3s both;
+        }
+
+        /* P-3: Section dan grid kartu produk */
+        .section {
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        .section h2 {
+            font-size: 28px;
+            color: #1A3C5E;
+            margin-bottom: 30px;
+        }
+
+        .card-grid {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Kartu produk dengan transition hover */
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            width: 220px;
+            border: 2px solid #E0E0E0;
+            cursor: pointer;
+            /* transform-origin diatur di bawah tengah */
+            transform-origin: center bottom;
+            /* Transition 4 properti: transform, box-shadow, border-color, background */
+            transition: transform 0.3s ease,
+                box-shadow 0.3s ease,
+                border-color 0.3s ease,
+                background-color 0.3s ease;
+        }
+
+        /* Hover kartu: translateY + scale */
+        .card:hover {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+            border-color: #1565C0;
+            background-color: #F5F9FF;
+        }
+
+        .card .icon {
+            font-size: 40px;
+            margin-bottom: 12px;
+        }
+
+        .card h3 {
+            font-size: 18px;
+            color: #1A3C5E;
+            margin-bottom: 8px;
+        }
+
+        .card p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* P-4: Loading spinner animation */
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .spinner-wrapper {
+            margin: 30px 0;
+        }
+
+        /* Spinner berputar terus */
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #E3F2FD;
+            border-top-color: #1565C0;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            animation: spin 0.8s linear infinite;
+        }
+
+        /* Checkbox tersembunyi untuk toggle spinner */
+        #toggle-spinner {
+            display: none;
+        }
+
+        /* Saat checkbox dicentang, spinner hilang */
+        #toggle-spinner:checked~.spinner-wrapper .spinner {
+            display: none;
+        }
+
+        /* Tombol toggle spinner */
+        .toggle-label {
+            display: inline-block;
+            padding: 10px 24px;
+            background: #1565C0;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease,
+                transform 0.2s ease;
+        }
+
+        .toggle-label:hover {
+            background: #0D47A1;
+            transform: scale(1.05);
+        }
+
+        /* P-5: Tombol CTA dengan animasi pulse */
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(21, 101, 192, 0.5);
+            }
+
+            50% {
+                box-shadow: 0 0 0 15px rgba(21, 101, 192, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(21, 101, 192, 0);
+            }
+        }
+
+        /* Kombinasi: Transition + Transform + Animation */
+        .cta-btn {
+            display: inline-block;
+            padding: 16px 40px;
+            background: #1565C0;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            /* Animation pulse otomatis */
+            animation: pulse 2s ease infinite;
+            /* Transition untuk hover */
+            transition: transform 0.2s ease,
+                background-color 0.3s ease;
+        }
+
+        /* Hover: naik + scale, pulse berhenti */
+        .cta-btn:hover {
+            background: #0D47A1;
+            transform: translateY(-4px) scale(1.05);
+            animation-play-state: paused;
+        }
+
+        .cta-btn:active {
+            transform: translateY(0) scale(0.97);
+        }
+
+        /* P-6: Animasi kreatif bola bergerak */
+        @keyframes bounceAround {
+            0% {
+                transform: translate(0, 0) scale(1) rotate(0deg);
+                background: #E91E63;
+            }
+
+            25% {
+                transform: translate(80px, -60px) scale(1.2) rotate(90deg);
+                background: #9C27B0;
+            }
+
+            50% {
+                transform: translate(160px, 0) scale(0.8) rotate(180deg);
+                background: #2196F3;
+            }
+
+            75% {
+                transform: translate(80px, 60px) scale(1.1) rotate(270deg);
+                background: #4CAF50;
+            }
+
+            100% {
+                transform: translate(0, 0) scale(1) rotate(360deg);
+                background: #E91E63;
+            }
+        }
+
+        .creative-section {
+            padding: 40px;
+            text-align: center;
+            background: #1A237E;
+            color: white;
+        }
+
+        .creative-section h2 {
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        /* Bola dengan animasi translate + scale + rotate */
+        .bouncing-ball {
+            width: 50px;
+            height: 50px;
+            background: #E91E63;
+            border-radius: 50%;
+            margin: 30px auto;
+            animation: bounceAround 3s ease-in-out infinite;
+        }
+
+        /* Demo transform 2D */
+        .transform-demo {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .t-box {
+            width: 100px;
+            height: 100px;
+            background: #1565C0;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 13px;
+            /* transform-origin di tengah */
+            transform-origin: center center;
+            /* Transition halus */
+            transition: transform 0.3s ease,
+                background-color 0.3s ease;
+        }
+
+        /* Transform: scale */
+        .t-scale:hover {
+            transform: scale(1.3);
+            background-color: #0D47A1;
+        }
+
+        /* Transform: rotate */
+        .t-rotate:hover {
+            transform: rotate(45deg);
+            background-color: #4CAF50;
+        }
+
+        /* Transform: translate */
+        .t-translate:hover {
+            transform: translate(10px, -10px);
+            background-color: #E91E63;
+        }
+
+        /* Transform: kombinasi semua */
+        .t-combo:hover {
+            transform: scale(1.1) rotate(10deg) translateY(-10px);
+            background-color: #FF9800;
+        }
+
+        .footer {
+            background: #0D47A1;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- P-1: Navbar fixed -->
+    <nav class="navbar">
+        <div class="logo">RMTech</div>
+        <div class="nav-links">
+            <a href="#hero">Home</a>
+            <a href="#produk">Produk</a>
+            <a href="#transform">Transform</a>
+            <a href="#spinner">Spinner</a>
+        </div>
+    </nav>
+
+    <!-- P-2: Hero section dengan fade-in slide-up -->
+    <section class="hero" id="hero">
+        <h1>Selamat Datang</h1>
+        <p>Halaman demo CSS Transition, Transform, dan Animation</p>
+        <!-- P-5: Tombol CTA dengan pulse -->
+        <a href="#produk" class="cta-btn">Lihat Produk</a>
+    </section>
+
+    <!-- P-3: Grid kartu produk -->
+    <section class="section" id="produk">
+        <h2>Produk Kami</h2>
+        <div class="card-grid">
+            <div class="card">
+                <div class="icon">📱</div>
+                <h3>Smartphone</h3>
+                <p>Smartphone terbaru dengan fitur canggih.</p>
+            </div>
+            <div class="card">
+                <div class="icon">💻</div>
+                <h3>Laptop</h3>
+                <p>Laptop ringan untuk kerja dan belajar.</p>
+            </div>
+            <div class="card">
+                <div class="icon">🎧</div>
+                <h3>Headset</h3>
+                <p>Audio jernih dan bass mantap.</p>
+            </div>
+            <div class="card">
+                <div class="icon">⌚</div>
+                <h3>Smartwatch</h3>
+                <p>Pantau kesehatan dari pergelangan tangan.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo CSS Transform 2D -->
+    <section class="section" id="transform">
+        <h2>Demo CSS Transform</h2>
+        <div class="transform-demo">
+            <div class="t-box t-scale">scale()</div>
+            <div class="t-box t-rotate">rotate()</div>
+            <div class="t-box t-translate">translate()</div>
+            <div class="t-box t-combo">Semua</div>
+        </div>
+    </section>
+
+    <!-- P-4: Loading spinner show/hide -->
+    <section class="section" id="spinner">
+        <h2>Loading Spinner</h2>
+        <input type="checkbox" id="toggle-spinner">
+        <div class="spinner-wrapper">
+            <div class="spinner"></div>
+            <br>
+            <label for="toggle-spinner" class="toggle-label">Show / Hide Spinner</label>
+        </div>
+    </section>
+
+    <!-- P-6: Animasi kreatif -->
+    <section class="creative-section">
+        <h2>Animasi Kreatif - Bola Bergerak</h2>
+        <p>Bola bergerak dengan kombinasi translate, scale, rotate, dan perubahan warna</p>
+        <div class="bouncing-ball"></div>
+    </section>
+
+    <div class="footer">
+        &copy; 2026 - Tugas Desain Web | by: RMTech
+    </div>
+
+</body>
+
+</html>
